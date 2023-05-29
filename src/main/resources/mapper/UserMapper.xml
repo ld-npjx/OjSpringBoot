@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.oj.ojspringboot.mapper.UserMapper">
+
+
+    <insert id="insert" parameterType="com.oj.ojspringboot.entity.User">
+        insert into user(id,password,num_phone,create_time) values (#{id},#{password},#{numPhone},#{createTime})
+    </insert>
+
+
+
+    <update id="updateUser">
+        update user set num_phone=#{numPhone},password=#{password} where id=#{id}
+    </update>
+
+
+    <delete id="delete" >
+        delete from user where id=#{id}
+    </delete>
+
+    <select id="selectAll" resultType="com.oj.ojspringboot.entity.User">
+        select * from user
+    </select>
+
+    <select id="selectById" resultType="com.oj.ojspringboot.entity.User" parameterType="Long">
+        select * from user where id=#{id}
+    </select>
+
+
+    <select id="selectByNumPhone" resultType="com.oj.ojspringboot.entity.User">
+        select * from user where num_phone=#{numPhone}
+    </select>
+
+</mapper>

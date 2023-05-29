@@ -1,0 +1,60 @@
+                <select style="width: 108px;"id="languageCode">
+                    <option value="java">Java</option>
+                    <option value="gcc">GCC</option>
+                    <option value="python">Python</option>
+                </select>
+                function makeProblemDetail(problem){
+                                let languageElement = document.getElementById("languageCode");
+                                let selectedLanguage = languageElement.value;
+                                console.log(selectedLanguage)
+                                  //1.获取到problemDesc，把题目详情写进去
+                                  let problemDesc = document.querySelector("#problemDesc");
+                                  let h4 = document.createElement("h4");
+                                  h4.innerHTML = problem.id+".&nbsp&nbsp&nbsp&nbsp"+problem.title+ "&nbsp&nbsp&nbsp&nbsp&nbsp"+problem.power+"<br><br><br>";
+                                  problemDesc.appendChild(h4);
+
+                                  let p=document.createElement("p");
+                                  p.innerHTML=problem.description;
+
+
+                                //   problemDesc.appendChild(p);
+
+                                  let pre = document.createElement("pre");
+                                  problemDesc.append(pre);
+                                  pre.appendChild(p);
+
+                                  //2. 把代码的模板填写到代码编辑框中
+                                  let codeEditor = document.querySelector("#codeEditor");
+                                //   codeEditor.innerHTML = problem.templateCode;
+                                //editor.setValue(problem.template)
+
+                                  //3. 给提交按钮注册一个点击事
+                                  let submitButton = document.querySelector("#submitButton");
+                                  submitButton.onclick = function(){
+                                      // 点击这个按钮，就要进行提交（把编辑框的内容提交到服务器上）
+                                      let body = {
+                                        id:problem.id,
+                                        language:selectedLanguage,
+                                        code:editor.getValue()
+                                      };
+                                      $.ajax({
+                                          url:"/question/result",
+                                          type:"POST",
+                                          data:JSON.stringify(body),
+                                          contentType:"application/json;charset=utf8",
+                                          success: function(data,status){
+                                            let problemResult = document.querySelector("#problemResult");
+                                              if(data.error===0){
+                                                  // 编译没有问题
+                                                  problemResult.innerHTML = data.stdout;
+                                              }else{
+                                                  // 如果编译有问题，就把reason 写到显示界面上
+                                                  problemResult.innerHTML = data.reason;
+                                              }
+                                          },error:function (data,status) {
+                                              alert("服务器异常，提交失败!")
+                                          }
+                                      })
+                                  }
+
+                            }

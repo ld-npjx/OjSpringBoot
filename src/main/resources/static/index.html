@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>datastop OJ 平台</title>
+        <meta name="description" content="Charcoal is a free Bootstrap 4 UI kit build by @attacomsian at Wired Dots." />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!--Bootstrap 4-->
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    </head>
+    <body>
+
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top sticky-navigation" id="nav">
+            <a class="navbar-brand font-weight-bold" href="#">OJ</a>
+
+<!--            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#topMenu" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">-->
+<!--                <span class="navbar-toggler-icon"></span>-->
+<!--            </button>-->
+
+            <div class="collapse navbar-collapse" id="topMenu">
+
+            </div>
+
+            <a class="navbar-brand font-weight-bold" href="index.html">主页</a>
+            <a class="navbar-brand font-weight-bold" href="javascript:void(0);"  onclick=logout()>注销</a>
+        </nav>
+
+<!--        &lt;!&ndash;hero section&ndash;&gt;-->
+<!--        <section class="bg-hero">-->
+<!--            <div class="container">-->
+<!--                <div class="row vh-100">-->
+<!--                    <div class="col-sm-12 my-auto text-center">-->
+<!--                        <h1>在线 OJ</h1>-->
+<!--                        <p class="lead text-capitalize my-4">-->
+<!--                            基于 Java-SpringBoot 搭建的在线 OJ 平台-->
+<!--                        </p>-->
+<!--                        <a href="https://gitee.com/chenruiqi21/OJ_Project" target="_blank" class="btn btn-outline-light btn-radius btn-lg">项目链接</a>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </section>-->
+        <!--components-->
+        <section class="my-5 pt-5">
+            <div class="container">
+
+                <!-- Tables  -->
+                <div class="row mb-5" id="tables">
+                    <div class="col-sm-12">
+                        <div class="mt-3 mb-5">
+                            <h3>题目列表</h3>
+                            <table class="table">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>题目</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="problemTable">
+                                  
+                                    <!-- <tr>
+                                        <td>1</td>
+                                        <td><a href="/question/{{id}}">两数之和</a></td>
+                                        <td>简单</td>
+                                    </tr>
+                                    -->
+
+
+                            
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!--footer-->
+        <section class="py-5 bg-dark">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 offset-md-3 col-sm-8 offset-sm-2 col-xs-12 text-center">
+                        <!-- <h3>Upgrade to Pro Version</h3>
+                        <p class="pt-2">
+                            We are working on <b>Charcoal Pro</b> which will be released soon. The pro version 
+                            will have a lot more components, sections, icons, plugins and example pages. 
+                            Join the waiting list to get notified when we release it (plus discount code).
+                        </p>
+                        <a class="btn btn-warning" href="https://wireddots.com/newsletter">Join Waiting List</a>
+                        <hr class="my-5"/> -->
+                        <p class="pt-2 text-muted">
+                            &copy; 2022 RAIN 7
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+        <script src="js/app.js"></script>
+        <script>
+            // 在页面加载的时候，尝试从服务器获取题目列表，通过 ajax 的方式来进行获取
+
+            // getUserManageMdel();
+            // function getUserManageMdel() {
+            //     // 满足一定的条件要把a标签给加上
+            //    $.ajax({
+            //        url:"/question/all",
+            //        type:"POST",
+            //        success:function (data,status) {
+            //           if(data.code===100){// 当前用户是管理员用户
+            //               let a1 =document.createElement("a");
+            //               a1.href="userManage.html";
+            //               a1.innerHTML="用户信息管理模块";
+            //               a1.className ="navbar-brand font-weight-bold";
+            //
+            //               let a2 =document.createElement("a");
+            //               a2.href="problemManage.html";
+            //               a2.innerHTML="题目信息管理模块";
+            //               a2.className ="navbar-brand font-weight-bold";
+            //
+            //               let nav = document.querySelector("#nav");
+            //               nav.appendChild(a1);
+            //               nav.appendChild(a2);
+            //           }
+            //           // 如果不是的话，那么是普通用户，就什么都不做
+            //        }
+            //    })
+            // }
+
+            function getProblems() {
+                // 1. 通过 ajax 从服务器获取到题目列表
+                $.ajax({
+                    url:"/question/all",
+                    type:"GET",
+                    success:function (data,status) {
+                        data=JSON.parse(data);
+                        makeProblemTable(data);
+                    },
+                    error:function () {
+                        alert("服务器异常，获取题目信息失败!");
+                    }
+                })
+            }
+
+              function makeProblemTable(data){
+                  // 通过这个函数把数据转换成HTML 片段
+                  let problemTable = document.querySelector("#problemTable");
+                    for(let problem of data ) {
+
+                        let tr = document.createElement("tr");
+                        let tdId = document.createElement("td");
+
+                        tdId.innerHTML = problem.id;
+                        tr.appendChild(tdId);
+
+                        let tdTitle = document.createElement("td");
+
+                        let a = document.createElement("a");
+
+                        a.innerHTML = problem.title;
+
+                        //TODO 
+                        a.href = "problemDetail.html?id=" + problem.id;
+                        a.target = "_blank";
+
+
+                        tdTitle.appendChild(a);
+                        tr.appendChild(tdTitle);
+
+                        let tdPower = document.createElement("td");
+                        tdPower.innerHTML = problem.power;
+                        tr.appendChild(tdPower);
+
+                        problemTable.appendChild(tr);
+                    }
+
+            }
+
+            getProblems();
+
+            function logout() {
+                $.ajax({
+                    url:"/user/logout",
+                    type:"POST",
+                    success:function (data,status) {
+                        alert(data.message);
+                        if(data.code===1){
+                            location.href="login.html";
+                        }
+                    }
+                })
+            }
+
+        </script>
+    </body>
+</html>

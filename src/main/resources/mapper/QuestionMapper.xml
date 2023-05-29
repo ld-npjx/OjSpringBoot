@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.oj.ojspringboot.mapper.QuestionMapper">
+
+    <insert id="insert" parameterType="com.oj.ojspringboot.entity.Question">
+        insert into questions(id,title,create_id,description,create_time,power,status) values (#{id},#{title},#{createId},#{description},#{createTime},#{power},#{status})
+    </insert>
+
+    <update id="updateById" >
+        update questions set title=#{title},
+                            description=#{description},
+                            status=#{status},
+                            create_time=#{createTime},
+                            power=#{power},
+                            title=#{title} where id=#{id}
+    </update>
+
+    <delete id="delete">
+        delete from questions where id=#{id}
+    </delete>
+
+    <select id="selectAll" resultType="com.oj.ojspringboot.entity.Question">
+        select id,title,power from questions
+    </select>
+
+    <select id="selectOne" resultType="com.oj.ojspringboot.entity.Question">
+        select * from questions where id = #{id}
+    </select>
+
+    <select id="selectByLikeTitle" resultType="com.oj.ojspringboot.entity.Question">
+        select id,title from questions where title like '%${likeTitle}%'
+    </select>
+
+</mapper>
