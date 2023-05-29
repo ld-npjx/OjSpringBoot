@@ -3,8 +3,8 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/oj?serverTimezone=Asia/Shanghai
     username: root
-#    password: 119pld
-    password: 119pldRoot*
+#    password: **
+#     password: **
 #  web:
 #    resources:
 #      static-locations: classpath:/res/**
