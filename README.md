@@ -1,4 +1,6 @@
 # OjSpringBoot
+支持C、Java、python在线编译
+
 前端页面网址：https://github.com/WorldBlueSky/OJ_Project-SpringBoot
 修改了一下Ajax代码和请求url等，其它前端代码主要采用上述网址
 
@@ -10,3 +12,5 @@ shell脚本来实现后端自动编译
 
 
 核心项目架构和shell脚本以及初始化sql文件在resource资源目录中，想要阅读可以直接查看
+
+采用DAO架构，分层合理，SpringBoot集成Mybatis实现
