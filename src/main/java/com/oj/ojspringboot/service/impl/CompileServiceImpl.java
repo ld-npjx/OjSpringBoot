@@ -102,7 +102,7 @@ public class CompileServiceImpl implements CompileService {
                 success++;
             }
         }
-
-        return Math.round(success*1.0/inputStr.size());
+        log.info(String.valueOf(success));
+        return (float) (success*1.0/inputStr.size());
     }
 }

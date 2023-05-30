@@ -48,7 +48,6 @@ public class LoginCheckFilter implements Filter {
         }
         //如果是登录的状态，也是直接放行
         if(request.getSession().getAttribute("user")!=null){
-
             Long userId=(Long) request.getSession().getAttribute("user");
             BaseContext.setCurrentId(userId);//将登录者id存入线程中
 
