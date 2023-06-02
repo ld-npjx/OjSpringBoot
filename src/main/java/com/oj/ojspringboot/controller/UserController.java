@@ -7,7 +7,6 @@ import com.oj.ojspringboot.service.SendService;
 import com.oj.ojspringboot.service.UserService;
 import com.oj.ojspringboot.util.roundNumUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
