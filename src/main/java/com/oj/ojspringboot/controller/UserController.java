@@ -118,9 +118,11 @@ public class UserController {
      * @return falseOrTrue
      * @param user 想要更改的用户
      */
-    @PutMapping("/update")
+    @PostMapping("/update")
     public Message<String> update(@RequestBody User user){
-        boolean b = userService.saveOrUpdate(user);
+        User userSet = userMapper.selectById(user.getId());
+        userSet.setPassword(user.getPassword());
+        boolean b = userService.saveOrUpdate(userSet);
         if(b) return Message.success("user be update");
         else return Message.error("error update");
     }
